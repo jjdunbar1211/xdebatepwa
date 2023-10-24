@@ -1,0 +1,26 @@
+{
+    "short_name": "XDebate",
+    "name": "(eX) Debate Presidencial",
+    "start_url": "index.html",
+    "id": "/",
+    "description": "Timeline del (eX) Debate Presidencial 2023",
+    "background_color": "#3498db",
+    "theme_color": "#3498db",
+    "display": "standalone",
+    "orientation": "portrait",
+    "icons": [
+     
+        {
+            "src": "img/icons/icon-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "img/icons/icon-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+      ]
+
+
+}
