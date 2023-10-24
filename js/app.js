@@ -1,5 +1,5 @@
 var url = window.location.href;
-var swLocation = "/xdebate/sw.js";
+var swLocation = "/xdebatepwa/sw.js";
 
 var swReg;
 
