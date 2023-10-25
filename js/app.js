@@ -8,13 +8,12 @@ if (navigator.serviceWorker) {
     swLocation = "/sw.js";
   }
 
-  //   window.addEventListener("load", function () {
-  //     navigator.serviceWorker.register(swLocation).then(function (reg) {
-  //       swReg = reg;
-  //       swReg.pushManager.getSubscription().then(verificaSuscripcion);
-  //     });
-  //     console.log("[evt: load] sw registrado");
-  //   });
+  window.addEventListener("load", function () {
+    navigator.serviceWorker.register(swLocation).then(function (reg) {
+      swReg = reg;
+    });
+    console.log("[evt: load] sw registrado");
+  });
 }
 
 if (
@@ -26,12 +25,28 @@ if (
 } else {
   // La app no está instalada, mostrar el botón.
   const installButton = document.getElementById("installButton");
-  installButton.addEventListener("click", function () {
-    navigator.serviceWorker.register(swLocation).then(function (reg) {
-      swReg = reg;
-      document.getElementById("installButton").style.display = "none";
-      console.log("[evt: load] sw registrado");
-    });
+
+  let deferredPrompt;
+
+  window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredPrompt = e;
+  });
+
+  installButton.addEventListener("click", () => {
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then((choiceResult) => {
+        if (choiceResult.outcome === "accepted") {
+          console.log("La PWA ha sido instalada");
+        }
+        deferredPrompt = null;
+      });
+    }
+  });
+
+  window.addEventListener("appinstalled", (evt) => {
+    installButton.style.display = "none";
   });
 }
 
@@ -66,7 +81,6 @@ var foto = null;
 var usuario;
 
 function crearMensajeHTML(mensaje, personaje, lat, lng, foto) {
-
   var content = `
     <li class="animated fadeIn fast"
         data-user="${personaje}"
@@ -229,7 +243,6 @@ function getMensajes() {
   fetch("api")
     .then((res) => res.json())
     .then((posts) => {
-
       posts.forEach((post) =>
         crearMensajeHTML(post.mensaje, post.user, post.lat, post.lng, post.foto)
       );
@@ -297,7 +310,6 @@ btnLocation.on("click", () => {
   });
 });
 
-
 // Share API
 
 // if ( navigator.share ) {
@@ -307,7 +319,6 @@ btnLocation.on("click", () => {
 // }
 
 timeline.on("click", "li", function () {
-
   let tipo = $(this).data("tipo");
   let lat = $(this).data("lat");
   let lng = $(this).data("lng");

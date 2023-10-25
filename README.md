@@ -1,3 +1,5 @@
-# Twittor
+# XDebate
 
-Un cascarón de un Twitter de héroes!
+## PWA. Primer intento.
+
+Timeline con posts de los candidatos a la elección presidencial en Argentina, 2023.
